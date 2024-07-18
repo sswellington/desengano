@@ -1,0 +1,82 @@
+% Page background decoration
+\newlength{\outerMargin}
+\newlength{\innerMargin}
+% Change these 3 values
+\setlength{\outerMargin}{0.17cm}
+\setlength{\innerMargin}{0.67cm}
+\newcommand\scaleFactor{1}
+
+\newlength{\frameSpaceA}
+\setlength{\frameSpaceA}{0.0488cm}
+\newlength{\frameSpaceB}
+\setlength{\frameSpaceB}{0.0933cm}
+\newlength{\frameSpaceC}
+\setlength{\frameSpaceC}{0.1979cm}
+\newlength{\frameSpaceD}
+\setlength{\frameSpaceD}{0.2435cm}
+\newlength{\frameSpaceE}
+\setlength{\frameSpaceE}{0.284cm}
+\newlength{\frameSpaceF}
+\setlength{\frameSpaceF}{0.1456cm}
+
+\newlength{\cornerOffsetBase}
+\setlength{\cornerOffsetBase}{0.23pt}
+\newlength{\cornerOffsetImage}
+\setlength{\cornerOffsetImage}{0.025cm}
+
+\definecolor{frameGrey}{RGB}{128,128,128}
+
+
+\backgroundsetup{
+    color=black,
+    scale=1,
+    opacity=1,
+    angle=0,
+    contents={
+        \begin{tikzpicture}
+        \fill [fill=white] (current page.south east) rectangle (current page.north west)(current page.north west);
+        \ifodd\value{page}
+            % External border
+		\draw[frameGrey, line width=3pt*\scaleFactor]
+            ( $ (current page.south east) + (-\outerMargin - \frameSpaceF * \scaleFactor, \outerMargin + \frameSpaceF * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\innerMargin + \frameSpaceF * \scaleFactor, -\outerMargin - \frameSpaceF * \scaleFactor) $ );
+        	\draw[line width=0.95pt*\scaleFactor]
+            ( $ (current page.south east) + (-\outerMargin,\outerMargin) $ ) rectangle ( $ (current page.north west) + (\innerMargin,-\outerMargin) $ );
+		\draw[line width=0.23pt*\scaleFactor]
+            ( $ (current page.south east) + (-\outerMargin - \frameSpaceA * \scaleFactor, \outerMargin + \frameSpaceA * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\innerMargin + \frameSpaceA * \scaleFactor, -\outerMargin - \frameSpaceA * \scaleFactor) $ );
+		\draw[line width=0.51pt*\scaleFactor]
+            ( $ (current page.south east) + (-\outerMargin - \frameSpaceB * \scaleFactor, \outerMargin + \frameSpaceB * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\innerMargin + \frameSpaceB * \scaleFactor, -\outerMargin - \frameSpaceB * \scaleFactor) $ );
+		\draw[line width=0.51pt*\scaleFactor]
+            ( $ (current page.south east) + (-\outerMargin - \frameSpaceC * \scaleFactor, \outerMargin + \frameSpaceC * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\innerMargin + \frameSpaceC * \scaleFactor, -\outerMargin - \frameSpaceC * \scaleFactor) $ );
+		\draw[line width=0.25pt*\scaleFactor]
+            ( $ (current page.south east) + (-\outerMargin - \frameSpaceD * \scaleFactor, \outerMargin + \frameSpaceD * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\innerMargin + \frameSpaceD * \scaleFactor, -\outerMargin - \frameSpaceD * \scaleFactor) $ );
+		\draw[line width=0.51pt*\scaleFactor]
+            ( $ (current page.south east) + (-\outerMargin - \frameSpaceE * \scaleFactor, \outerMargin + \frameSpaceE * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\innerMargin + \frameSpaceE * \scaleFactor, -\outerMargin - \frameSpaceE * \scaleFactor) $ );
+            % Corner ornaments
+            \node[anchor=north east, rotate=90] at ( $ (current page.north west) + (\innerMargin,-\outerMargin ) + (-\cornerOffsetImage*\scaleFactor-\cornerOffsetBase,\cornerOffsetImage*\scaleFactor+\cornerOffsetBase)$ ){\includegraphics[width=1.5cm*\scaleFactor]{formatting/corner2}};
+            \node[anchor=north east, rotate=0] at ( $ (current page.north east) + (-\outerMargin, -\outerMargin) + (\cornerOffsetImage*\scaleFactor+\cornerOffsetBase,\cornerOffsetImage*\scaleFactor+\cornerOffsetBase) $ ){\includegraphics[width=1.5cm*\scaleFactor]{formatting/corner2}};
+            \node[anchor=north east, rotate=180] at ( $ (current page.south west) + (\innerMargin,\outerMargin) + (-\cornerOffsetImage*\scaleFactor-\cornerOffsetBase,-\cornerOffsetImage*\scaleFactor-\cornerOffsetBase) $ ){\includegraphics[width=1.5cm*\scaleFactor]{formatting/corner2}};
+            \node[anchor=north east, rotate=270] at ( $ (current page.south east) + (-\outerMargin,\outerMargin) + (\cornerOffsetImage*\scaleFactor+\cornerOffsetBase, -\cornerOffsetImage*\scaleFactor-\cornerOffsetBase) $ ){\includegraphics[width=1.5cm*\scaleFactor]{formatting/corner2}};
+        \else
+		\draw[frameGrey,line width=3pt*\scaleFactor]
+            ( $ (current page.south east) + (-\innerMargin - \frameSpaceF * \scaleFactor, \outerMargin + \frameSpaceF * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\outerMargin + \frameSpaceF * \scaleFactor, -\outerMargin - \frameSpaceF * \scaleFactor) $ );
+            	\draw[line width=0.95pt*\scaleFactor]
+            ( $ (current page.south east) + (-\innerMargin, \outerMargin) $ ) rectangle ( $ (current page.north west) + (\outerMargin, -\outerMargin) $ );
+	  	\draw[line width=0.25pt*\scaleFactor]
+            ( $ (current page.south east) + (-\innerMargin - \frameSpaceA * \scaleFactor, \outerMargin + \frameSpaceA * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\outerMargin + \frameSpaceA * \scaleFactor, -\outerMargin - \frameSpaceA * \scaleFactor) $ );
+		\draw[line width=0.51pt*\scaleFactor]
+            ( $ (current page.south east) + (-\innerMargin - \frameSpaceB * \scaleFactor, \outerMargin + \frameSpaceB * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\outerMargin + \frameSpaceB * \scaleFactor, -\outerMargin - \frameSpaceB * \scaleFactor) $ );
+		\draw[line width=0.51pt*\scaleFactor]
+            ( $ (current page.south east) + (-\innerMargin - \frameSpaceC * \scaleFactor, \outerMargin + \frameSpaceC * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\outerMargin + \frameSpaceC * \scaleFactor, -\outerMargin - \frameSpaceC * \scaleFactor) $ );
+		\draw[line width=0.25pt*\scaleFactor]
+            ( $ (current page.south east) + (-\innerMargin - \frameSpaceD * \scaleFactor, \outerMargin + \frameSpaceD * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\outerMargin + \frameSpaceD * \scaleFactor, -\outerMargin - \frameSpaceD * \scaleFactor) $ );
+		\draw[line width=0.51pt*\scaleFactor]
+            ( $ (current page.south east) + (-\innerMargin - \frameSpaceE * \scaleFactor, \outerMargin + \frameSpaceE * \scaleFactor) $ ) rectangle ( $ (current page.north west) + (\outerMargin + \frameSpaceE * \scaleFactor, -\outerMargin - \frameSpaceE * \scaleFactor) $ );
+            % Corner ornaments
+            \node[anchor=north east, rotate=90] at ( $ (current page.north west) + (\outerMargin,-\outerMargin ) + (-\cornerOffsetImage*\scaleFactor-\cornerOffsetBase,\cornerOffsetImage*\scaleFactor+\cornerOffsetBase)$ ){\includegraphics[width=1.5cm*\scaleFactor]{formatting/corner2}};
+            \node[anchor=north east, rotate=0] at ( $ (current page.north east) + (-\innerMargin, -\outerMargin) + (\cornerOffsetImage*\scaleFactor+\cornerOffsetBase,\cornerOffsetImage*\scaleFactor+\cornerOffsetBase) $ ){\includegraphics[width=1.5cm*\scaleFactor]{formatting/corner2}};
+            \node[anchor=north east, rotate=180] at ( $ (current page.south west) + (\outerMargin,\outerMargin) + (-\cornerOffsetImage*\scaleFactor-\cornerOffsetBase,-\cornerOffsetImage*\scaleFactor-\cornerOffsetBase) $ ){\includegraphics[width=1.5cm*\scaleFactor]{formatting/corner2}};
+            \node[anchor=north east, rotate=270] at ( $ (current page.south east) + (-\innerMargin,\outerMargin) + (\cornerOffsetImage*\scaleFactor+\cornerOffsetBase, -\cornerOffsetImage*\scaleFactor-\cornerOffsetBase) $ ){\includegraphics[width=1.5cm*\scaleFactor]{formatting/corner2}};
+        \fi
+        \end{tikzpicture}
+    }
+}

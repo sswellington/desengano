@@ -1,0 +1,132 @@
+\makeatletter
+% Fonts declarations
+% Use first for different initials
+\newfontfamily{\initials}[Extension=.ttf,ExternalLocation=fonts/,Scale=MatchUppercase]{Kanzlei-Initialen}
+\newfontfamily{\sectionFont}[Extension=.ttf,ExternalLocation=fonts/]{Germanica}
+%\newfontfamily{\numerals}[Extension=.ttf]{roman_font_7.ttf}
+\newfontfamily{\titleFont}[Extension=.ttf,ExternalLocation=fonts/]{MediciText}
+
+% Table of contents format. An example of how it can be changed for different parts. 
+
+%\titlecontents{chapter}
+%[0em]                 % adjust left margin
+%{\chapterFont\LARGE}             % font formatting
+%{} % section label and offset
+%{}
+%{\titlerule*[0.4em]{.}\normalfont\contentspage}
+
+%\titlecontents{section}
+%[1em]                 % adjust left margin
+%{\articleFont\large}             % font formatting
+%{} % section label and offset
+%{}
+%{\titlerule*[0.4em]{.}\normalfont\contentspage}
+
+%\titlecontents{subsection}
+%[2em]                 % adjust left margin
+%{\bfseries}             % font formatting
+%{\thecontentslabel\hspace{1em}} % section label and offset
+%{}
+%{\titlerule*[0.4em]{.}\normalfont\contentspage}
+
+%\titlecontents{subsubsection}
+%[3em]                 % adjust left margin
+%{}             % font formatting
+%{\thecontentslabel\hspace{1em}} % section label and offset
+%{}
+%{\titlerule*[0.4em]{.}\normalfont\contentspage}
+
+%\renewcommand\tableofcontents{%
+%    \begin{multicols}{2}[\section*{\contentsname
+%        \@mkboth{%
+%           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}]%
+%    \@starttoc{toc}%
+%    \end{multicols}%
+%    }
+%\renewcommand\contentsname{Table of contents}
+% \setcounter{tocdepth}{3} 
+
+% Sections formatting
+\titleformat{\chapter}[display]
+    {\vfill\filcenter\bf}
+    {}
+    {0ex}
+    {\rput[b](0pt,20pt){\includegraphics[width=9cm]{formatting/ornament}}\\
+    \fontsize{29}{23}\sectionFont#1\\
+    \rput[b]{180}(0pt,-5pt){\includegraphics[width=9cm]{formatting/ornament}}}
+    [\vfill\null\thispagestyle{empty}\clearpage]
+\titlespacing{\chapter}{0pt}{0ex}{0ex}
+
+\titleformat{\section}[block]
+            {\centering\Large}
+            {\centering\MakeUppercase{\bf\roman{section}}\\}
+            {0pt}
+            {\sectionFont#1}
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{3.3em}}
+
+% Fancy frame to be used
+\input{formatting/frame6.tex}
+
+% Optional line between columns, with ornament included
+%\SetMCRule{
+%    custom-line={
+%        \path ($ (TOP) !.4! (BOT) $) to [ornament=88] ($ (TOP) !.6! (BOT) $);
+%    },
+%    width=0.2pt,
+%    extend-fill
+%}
+
+% Footer formatting
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\setlength{\footskip}{15pt}
+\cfoot{{\rput[b]{90}(-0.2,0.15){\pgfornament[width=0.5cm]{26}} \thepage \rput[b]{-90}(0.2, 0.03){\pgfornament[width=0.5cm]{26}}}}
+
+% I have no idea what this was for
+\newenvironment{chapquote}[2][2em]
+{
+	\def\chapquote@author{#2}%
+	\itshape
+	``}
+{''\par\normalfont\hfill--\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+
+% Main font. Linlibertine includes a good amount of UTF-8 characters e.g. greek ones
+\setmainfont[ExternalLocation=fonts/]{linlibertine}[
+    SizeFeatures={Size=13},
+	Extension=.ttf,
+	UprightFont=*-re,
+	ItalicFont=*-it,
+	BoldFont=*-bd,
+	BoldItalicFont=*-bi.ttf
+]
+
+% Big capital font
+\renewcommand{\LettrineFontHook}{\initials}
+% Use after a paragraph with a big capital letter if the next paragraph overlaps with the capital letter
+\newcommand{\checklettrine}{
+	\ifnum\prevgraf<\lettrinelines
+        \wlog{\prevgraf}
+		\Repeat{\fpeval{\lettrinelines-\prevgraf}}{\hfill \\}
+		\indent
+	\fi
+}
+\setcounter{DefaultLines}{\lettrinelines}
+\renewcommand*{\DefaultLoversize}{0.1}
+\makeatother
+
+% Paragraph 
+\setlength{\parskip}{0.6em}
+\renewcommand{\baselinestretch}{1.3}
+
+% Use these if you want to manually update or reset section/subsection/whatever counters for the table of contents. In this example subsections are only reset by chapters, which do not reset sections
+%\newcommand{\mychapter}[2]{
+%    \chapter*{#2}
+%    \setcounter{subsection}{0}
+%    \addcontentsline{toc}{chapter}{#1}
+%}
+%
+%\newcommand{\mysection}[1]{
+%    \section*{#1}
+%    \addcontentsline{toc}{section}{#1}
+%}
+%\counterwithout{subsection}{section}
