@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tabuleiro 11x11x3</title>
+    <style>
+        body {
+            background-color: #2c3e50;
+            color: white;
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        .tabuleiro-camada {
+            margin-bottom: 40px;
+        }
+
+        .board-title {
+            margin-bottom: 10px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(11, 40px);
+            grid-gap: 3px;
+        }
+
+        .tile {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            border-radius: 3px;
+        }
+
+        .level-1 {
+            background-color: #6b4226;
+        }
+
+        /* Subterrâneo */
+        .level-2 {
+            background-color: #27ae60;
+        }
+
+        /* Normal */
+        .level-3 {
+            background-color: #3498db;
+        }
+
+        /* Voar */
+
+        .diagonal {
+            outline: 2px solid yellow;
+        }
+
+        .secondary-diagonal {
+            outline: 2px solid #ff00ff;
+        }
+
+        .top-line {
+            outline: 2px solid red;
+        }
+
+        .left-line {
+            outline: 2px solid red;
+        }
+
+        .bottom-line {
+            outline: 2px solid blue;
+        }
+
+        .right-line {
+            outline: 2px solid blue;
+        }
+
+        .ordem {
+            outline: 3px solid orange;
+        }
+
+        .progresso {
+            outline: 3px solid lime;
+        }
+
+        .lane-top {
+            box-shadow: inset 0 0 0 3px red;
+        }
+
+        .lane-bottom {
+            box-shadow: inset 0 0 0 3px blue;
+        }
+
+        .lane-left {
+            box-shadow: inset 0 0 0 3px red;
+        }
+
+        .lane-right {
+            box-shadow: inset 0 0 0 3px blue;
+        }
+
+        .lane-jungle {
+            box-shadow: inset 0 0 0 3px #8e44ad;
+        }
+
+        .torre {
+            background-color: gold !important;
+            color: black !important;
+            font-weight: bold;
+            border: 2px solid white;
+        }
+
+        .monstro {
+            background-color: crimson !important;
+            color: white !important;
+            font-weight: bold;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="tabuleiros"></div>
+
+    <script>
+        const torres = [
+            [0, 0], [2, 0], [5, 0], [8, 0], [10, 0],
+            [0, 10], [2, 10], [5, 10], [8, 10], [10, 10],
+            [0, 2], [0, 5], [0, 8],
+            [10, 2], [10, 5], [10, 8],
+            [2, 8], [4, 6], [6, 4], [8, 2]
+        ];
+
+        const monstros = [
+            [3, 2], [2, 3], [7, 8], [8, 7]
+        ];
+
+        function criarTabuleiro() {
+            const container = document.getElementById("tabuleiros");
+
+            for (let z = 1; z <= 3; z++) {
+                const camada = document.createElement("div");
+                camada.classList.add("tabuleiro-camada");
+
+                const titulo = document.createElement("div");
+                titulo.classList.add("board-title");
+                titulo.textContent = z === 1 ? "Subterrâneo (1)" : z === 2 ? "Terrestre (2)" : "Aéreo (3)";
+                camada.appendChild(titulo);
+
+                const board = document.createElement("div");
+                board.classList.add("board");
+
+                for (let y = 0; y < 11; y++) {
+                    for (let x = 0; x < 11; x++) {
+                        const tile = document.createElement("div");
+                        tile.classList.add("tile", `level-${z}`);
+
+                        if (x === y) tile.classList.add("diagonal");
+                        if (x + y === 10) tile.classList.add("secondary-diagonal");
+
+                        if (y === 0) tile.classList.add("top-line", "lane-top");
+                        if (x === 0) tile.classList.add("left-line", "lane-left");
+                        if (y === 10) tile.classList.add("bottom-line", "lane-bottom");
+                        if (x === 10) tile.classList.add("right-line", "lane-right");
+
+                        if (y !== 0 && y !== 10 && x !== 0 && x !== 10) tile.classList.add("lane-jungle");
+
+                        if (x === 10 && y === 0) tile.classList.add("ordem");
+                        if (x === 0 && y === 10) tile.classList.add("progresso");
+
+                        if (torres.some(([tx, ty]) => tx === x && ty === y)) {
+                            tile.classList.add("torre");
+                            tile.innerText = "T";
+                        } else if (monstros.some(([mx, my]) => mx === x && my === y)) {
+                            tile.classList.add("monstro");
+                            tile.innerText = "M";
+                        } else {
+                            tile.innerText = `${x},${y},${z}`;
+                        }
+
+                        board.appendChild(tile);
+                    }
+                }
+
+                camada.appendChild(board);
+                container.appendChild(camada);
+            }
+        }
+
+        criarTabuleiro();
+    </script>
+</body>
+
+</html>
